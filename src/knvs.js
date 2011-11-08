@@ -348,7 +348,7 @@ var Knvs = new function () {
 
 					for (i=0; i < completed.length; i += 1) {
 						interval = completed[i];
-						interval.anim.after(interval.anim.element);
+						interval.anim.after_callback(interval.anim.element);
 					}
 				};
 			};
@@ -389,7 +389,7 @@ var Knvs = new function () {
 			// if no transition, then linear
 			this.transition = options.transition || linear; 
 			this.transitions = options.transitions || {};
-			this.after = options.after || function (){};
+			this.after_callback = options.after || function (){};
 			this.duration = options.duration || 300;
 
 			if(attributes.zIndex === 0 || attributes.zIndex > 0){
@@ -440,6 +440,33 @@ var Knvs = new function () {
 				var timer = this.knvs.getTimer();
 				timer.removeInterval(this);
 			};
+
+			/**
+			 *	"Appends" a new function to the older
+			 */
+			this.after = function(new_function){
+				var prev_function = this.after_callback;
+				console.log(prev_function);
+				console.log(new_function);
+				this.after_callback = (function(self, prev_func, new_func){
+					return function(){
+						prev_func(self);
+						new_func(self);
+					};
+				}(this.element, prev_function, new_function));
+				
+				return this;
+			};
+
+			/**
+			 *	Create a new after callback with a new morph object, and returns this.
+			 */
+			this.morph = function(attributes, options){
+				this.after(function(element){
+					element.morph(attributes, options);
+				});
+				return this;
+			}
 
 			this.start();
 		};
