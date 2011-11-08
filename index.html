@@ -190,11 +190,7 @@
 							circle5.left = 70;
 							circle5.top = 70;
 							circle5.radius = 30;
-							circle5.morph({radius: 70, color: 'rgba(252,125,73,1)'},{
-								after: function(circle){
-									circle.morph({radius: 30, color: 'rgba(218,43,58,1)'});
-								}
-							});
+							circle5.morph({radius: 70, color: 'rgba(252,125,73,1)'}).morph({radius: 30, color: 'rgba(218,43,58,1)'});;
 						}
 					</script>
 				</div>
