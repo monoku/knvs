@@ -174,6 +174,31 @@
 					</script>
 				</div>
 			</article>
+
+			<article>
+				<canvas width='300'  height='250' id='fifth'>
+				</canvas>
+				<div>
+					<h2>Callbacks</h2>
+					<code>
+					</code>
+					<button onclick='fifth();'>Run</button>
+					<script type='text/javascript'>
+						var knvs5 = Knvs.create('fifth');
+						var circle5 = knvs5.draw('circle', {left:70, top: 70, radius: 30, color: 'rgba(218,43,58,1)'});
+						function fifth(){
+							circle5.left = 70;
+							circle5.top = 70;
+							circle5.radius = 30;
+							circle5.morph({radius: 70, color: 'rgba(252,125,73,1)'},{
+								after: function(circle){
+									circle.morph({radius: 30, color: 'rgba(218,43,58,1)'});
+								}
+							});
+						}
+					</script>
+				</div>
+			</article>
 		</article>
 		<footer>
 			<address>
