@@ -1,0 +1,183 @@
+<html>
+	<head>
+		<title>KNVS by Davsket</title>
+		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700|Rosario' rel='stylesheet' type='text/css'>
+		<style type="text/css">
+			html{
+				font-family: 'Rosario', sans-serif;
+				background: #f9f9f9;
+				background: url(http://subtlepatterns.com/patterns/cubes.png);
+			}
+			body{
+				color: #333;
+			}
+
+			h1, h2{
+				margin: 0;
+			}
+
+			h1{
+				font-family: 'Yanone Kaffeesatz', cursive;
+				font-size: 6em;
+				color: #222;
+			}
+			h2{
+				font-size: 1.2em;
+				margin-bottom: 10px;
+				color: #444;
+			}
+
+			header, footer, .container{
+				width: 800px;
+				margin: auto;
+			}
+
+			footer{
+				padding: 70px 0 30px;
+				text-align: center;
+				color: #666;
+				font-size: 0.8em;
+			}
+			code{
+				display: block;
+			}
+
+			.container{
+				padding-top: 20px;
+			}
+			.container canvas{
+				float: left;
+				border: 1px solid #eee;
+				margin-right: 20px;
+				background: white;
+			}
+			.container article{
+				overflow: hidden;
+				padding: 20px;
+				background: #ececec;
+				border-radius: 7px;
+				box-shadow: 2px 2px #e9e9e9;
+				margin-bottom: 20px;
+			}
+			button{
+				color: white;
+				background: #333;
+				font-size: 1em;
+				border: 1px solid #333;
+				border-radius: 5px;
+				cursor: pointer;
+				padding: 5px 15px;
+				margin-top: 15px;
+				font-family: 'Rosario', sans-serif;
+			}
+			button:hover{
+				background: #555;
+				border: 1px solid #555;
+			}
+		</style>
+		<script type='text/javascript' src='src/knvs.js'></script>
+		<script type='text/javascript' src='lib/penner.js'></script>
+	</head>
+	<body>
+		<header>
+			<h1>KNVS</h1>
+			<p>
+				KNVS is a light weight javascript library for canvas animations, it takes a canvas element and creates a continuous animation board. Every element that you draw via the KNVS, is going to be redrawn in the canvas, so any change you do on the element, is gonna be reflected on the canvas.
+			</p>
+			<p>
+				Here you will find examples of the use of KNVS.
+			</p>
+		</header>
+		<article class='container'>
+			<article>
+				<canvas width='300'  height='150' id='first'>
+				</canvas>
+				<div>
+					<h2>Creating a circle</h2>
+					<code>
+						knvs = Knvs.create('first');<br/><br/>
+						var circle = knvs.draw('circle', {left:150, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});
+					</code>	
+					<script type='text/javascript'>
+						var knvs = Knvs.create('first');
+						var circle = knvs.draw('circle', {left:150, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});
+					</script>
+				</div>
+			</article>
+
+			<article>
+				<canvas width='300'  height='150' id='second'>
+				</canvas>
+				<div>
+					<h2>Moving the circle</h2>
+					<code>
+						knvs = Knvs.create('second');<br/><br/>
+						var circle = knvs.draw('circle', {left:50, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});<br/><br/>
+						circle.morph({left: 250});
+					</code>
+					<button onclick='second();'>Run</button>
+					<script type='text/javascript'>
+						var knvs2 = Knvs.create('second');
+						var circle2 = knvs2.draw('circle', {left:50, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});
+						function second(){
+							circle2.left = 50;
+							circle2.morph({left: 250});
+						}
+					</script>
+				</div>
+			</article>
+
+			<article>
+				<canvas width='300'  height='250' id='third'>
+				</canvas>
+				<div>
+					<h2>Moving the circle with easing</h2>
+					<code>
+						knvs = Knvs.create('third');<br/><br/>
+						var circle = knvs.draw('circle', {left:50, top: 50, radius: 50, color: 'rgba(218,43,58,1)'});<br/><br/>
+						circle.morph({left: 250, top: 200},{transitions:{top: bounce}, duration: 600});
+					</code>
+					<button onclick='third();'>Run</button>
+					<script type='text/javascript'>
+						var knvs3 = Knvs.create('third');
+						var circle3 = knvs3.draw('circle', {left:50, top: 50, radius: 50, color: 'rgba(218,43,58,1)'});
+						function third(){
+							circle3.left = 50;
+							circle3.top = 50;
+							circle3.morph({left: 250, top: 200},{transitions:{top: bounce}, duration: 600});
+						}
+					</script>
+				</div>
+			</article>
+
+			<article>
+				<canvas width='300'  height='250' id='fourth'>
+				</canvas>
+				<div>
+					<h2>Multiple stuff</h2>
+					<code>
+						knvs = Knvs.create('fourth');<br/><br/>
+						var circle = knvs.draw('circle', {left:50, top: 50, radius: 50, color: 'rgba(218,43,58,1)'});<br/><br/>
+						circle.morph({left: 250, top: 200, color: 'rgba(252,125,73,1)'}, {transitions:{top: bounce, left: easeInOutQuad}, duration: 600});
+					</code>
+					<button onclick='fourth();'>Run</button>
+					<script type='text/javascript'>
+						var knvs4 = Knvs.create('fourth');
+						var circle4 = knvs4.draw('circle', {left:50, top: 50, radius: 50, color: 'rgba(218,43,58,1)'});
+						function fourth(){
+							circle4.left = 50;
+							circle4.top = 50;
+							circle4.color = 'rgba(218,43,58,1)';
+							circle4.morph({left: 250, top: 200, color: 'rgba(252,125,73,1)'},{transitions:{top: bounce, left: easeInOutQuad}, duration: 600});
+						}
+					</script>
+				</div>
+			</article>
+		</article>
+		<footer>
+			<address>
+				Developed by David Avellaneda - <a href='http://twitter.com/davsket'>@Davsket</a>.
+			</address>
+		</footer>
+	</body>
+</html>
