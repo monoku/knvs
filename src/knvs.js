@@ -41,10 +41,12 @@ var Knvs = new function () {
 		/*
 		 * Private properties
 		 */
-		var elements_, fr_, ctx_, Figure, linear;
-		elements_ = [];
-		fr_ = options.fr || 30;
-		ctx_ = this.element_.getContext('2d');  
+		var 
+			elements_ = [], 
+			fr_ = options.fr || 30, 
+			ctx_ = this.element_.getContext('2d'), 
+			Figure, linear
+		; 
 		
 		/*
 		 * Setup
@@ -52,6 +54,7 @@ var Knvs = new function () {
 		ctx_.strokeStyle = "rgba(255, 255, 255, 1)"; 
 		ctx_.fillStyle = "rgba(255, 255, 255, 1)";
 		ctx_.beginPath();
+
 		linear = function (val){return val;};
 
 
@@ -60,19 +63,19 @@ var Knvs = new function () {
 			param = param || {};
 			this.left = param.left || 0;
 			this.top = param.top || 0;
-			this.animation = undefined;
+			this.animation = null;
 			this.scalex = param.scalex || 1;
 			this.scaley = param.scaley || 1;
 			this.angle = param.angle || 0;
 			this.angle_origin_x = param.angle_origin_x || 0;
 			this.angle_origin_y = param.angle_origin_y || 0;
 			
-			this.draw = function (){
-				
-			};
+			this.draw = function (){};
+
 			this.getType = function (){
 				return 'base';
 			};
+
 			this.morph = function (attributes, options){
 				if(this.animation){
 					this.animation.cancel();
@@ -80,6 +83,7 @@ var Knvs = new function () {
 				this.animation = new this.knvsi.morph_(this, attributes, options, this.knvsi);
 				return this.animation;
 			};
+			
 			this.scale = function (x,y){
 				this.scalex = x;
 				this.scaley = y;
@@ -344,7 +348,7 @@ var Knvs = new function () {
 
 					for (i=0; i < completed.length; i += 1) {
 						interval = completed[i];
-						interval.anim.after(interval.anim.element);
+						interval.anim.after_callback(interval.anim.element);
 					}
 				};
 			};
@@ -385,7 +389,7 @@ var Knvs = new function () {
 			// if no transition, then linear
 			this.transition = options.transition || linear; 
 			this.transitions = options.transitions || {};
-			this.after = options.after || function (){};
+			this.after_callback = options.after || function (){};
 			this.duration = options.duration || 300;
 
 			if(attributes.zIndex === 0 || attributes.zIndex > 0){
@@ -436,6 +440,33 @@ var Knvs = new function () {
 				var timer = this.knvs.getTimer();
 				timer.removeInterval(this);
 			};
+
+			/**
+			 *	"Appends" a new function to the older
+			 */
+			this.after = function(new_function){
+				var prev_function = this.after_callback;
+				console.log(prev_function);
+				console.log(new_function);
+				this.after_callback = (function(self, prev_func, new_func){
+					return function(){
+						prev_func(self);
+						new_func(self);
+					};
+				}(this.element, prev_function, new_function));
+				
+				return this;
+			};
+
+			/**
+			 *	Create a new after callback with a new morph object, and returns this.
+			 */
+			this.morph = function(attributes, options){
+				this.after(function(element){
+					element.morph(attributes, options);
+				});
+				return this;
+			}
 
 			this.start();
 		};

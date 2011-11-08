@@ -33,5 +33,6 @@ KNVS was inpired by:
 * "Scripty2: A powerful, flexible JavaScript framework to help you write your own delicious visual effects & user interfaces":http://scripty2.com/
 
 h2. Copyright and Licensing
+
 Copyright 2011 Germán David Avellaneda Ballén Licensed under the Apache License, Version 2.0 
 "http://www.apache.org/licenses/LICENSE-2.0":http://www.apache.org/licenses/LICENSE-2.0
