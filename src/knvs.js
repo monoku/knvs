@@ -446,8 +446,6 @@ var Knvs = new function () {
 			 */
 			this.after = function(new_function){
 				var prev_function = this.after_callback;
-				console.log(prev_function);
-				console.log(new_function);
 				this.after_callback = (function(self, prev_func, new_func){
 					return function(){
 						prev_func(self);
