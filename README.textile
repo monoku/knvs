@@ -1,0 +1,33 @@
+h1. KNVS
+
+By David Avellaneda - @Davsket and "contributors":https://github.com/davsket/knvs/contributors
+
+KNVS is a light weight javascript library for canvas animations, it takes a canvas element and creates a continuous animation board. Every element that you draw via the KNVS, is going to be redrawn in the canvas, so any change you do on the element, is gonna be reflected on the canvas.
+
+
+KNVS doesn't validates the browser version or something else, there are a LOT of libraries that do it. So, this expects that there is gonna be a canvas support.
+
+This library only draws, meanwhile, circles, rectangles, images, and text (but not completly).
+
+h2. Getting Started
+
+When I say that I want to create a light weight canvas animation library, I mean that you can create an animation in canvas in only 4 steps (including the typical step of import the library in your html):
+
+1. Import the KNVS script
+@<script type="text/javascript" src="js/knvs.js"></script>@
+2. Create your KNVS element by passing either the canvas element or the canvas element's id:
+@var knvs = Knvs.create('canvas_id');@
+3. Create any draw (of the supported)
+@var circle = knvs.draw('circle', {'left': 50, 'top': 50, radius: '50', 'background':'rgba(0,0,255,1)'});@
+4. Bang! Animate! first the properties of your drawing, and then the properties of the animation (optional)
+@circle.morph({'left': 300}, {'duration': 300});@
+or just
+@circle.morph({'left': 300});@
+
+
+h2. The origins
+
+KNVS was inpired by:
+* "Mootools Fx.Morph: Allows for the animation of multiple CSS properties at once, even by a simple CSS selector. ":http://mootools.net/docs/core/Fx/Fx.Morph
+* "Émile: Stand-alone CSS animation JavaScript mini-framework":https://github.com/madrobby/emile
+* "Scripty2: A powerful, flexible JavaScript framework to help you write your own delicious visual effects & user interfaces":http://scripty2.com/
