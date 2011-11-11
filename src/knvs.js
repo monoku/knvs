@@ -81,6 +81,8 @@ var Knvs = new function () {
 					this.animation.cancel();
 				}
 				this.animation = new this.knvsi.morph_(this, attributes, options, this.knvsi);
+				this.animation.start();
+
 				return this.animation;
 			};
 			
@@ -88,6 +90,12 @@ var Knvs = new function () {
 				this.scalex = x;
 				this.scaley = y;
 			};
+
+			this.set = function(properties){
+				for(property in properties){
+					this[property] = properties[property];
+				}
+			}
 		};
 
 		this.circle = function (param){
@@ -127,6 +135,7 @@ var Knvs = new function () {
 				ctx_.translate(this.left + this.angle_origin_x, this.top + this.angle_origin_y);  
 				ctx_.rotate(this.angle * Math.PI/180);
 			    ctx_.moveTo(-this.angle_origin_x, -this.angle_origin_y); 
+			    ctx_.scale(this.scalex,this.scaley);
 				ctx_.fillRect (-this.angle_origin_x, -this.angle_origin_y, this.width, this.height);
 				ctx_.restore();
 				return this;
@@ -150,9 +159,10 @@ var Knvs = new function () {
 						ctx_.translate(this.left+this.angle_origin_x, this.top+this.angle_origin_y);  
 						ctx_.rotate(this.angle * Math.PI/180);
 						ctx_.globalAlpha = this.alpha;
+					    ctx_.scale(this.scalex,this.scaley);
 						try{
-							this.width=this.width<=0?1:this.width;
-							this.height=this.height<=0?1:this.height;
+							this.width=this.width<=0?this.img.width:this.width;
+							this.height=this.height<=0?this.img.height:this.height;
 							ctx_.drawImage(this.img, -this.angle_origin_x, -this.angle_origin_y, this.width, this.height);
 						}catch(e){
 						}
@@ -380,10 +390,6 @@ var Knvs = new function () {
 			this.init = {};
 			options = options || {};
 
-			for (property in attributes) {
-				this.init[property] = element[property] || 0;
-			}
-
 			this.element = element;
 			this.attributes = attributes;
 			// if no transition, then linear
@@ -432,6 +438,9 @@ var Knvs = new function () {
 			};
 
 			this.start = function (){	
+				for (property in attributes) {
+					this.init[property] = element[property] || 0;
+				}
 				var timer = this.knvs.getTimer();
 				timer.addInterval(this, this.duration);
 			};
@@ -460,13 +469,13 @@ var Knvs = new function () {
 			 *	Create a new after callback with a new morph object, and returns this.
 			 */
 			this.morph = function(attributes, options){
+				var new_morph = new this.knvs.morph_(this.element, attributes, options, this.knvs);
 				this.after(function(element){
-					element.morph(attributes, options);
+					new_morph.start();
 				});
-				return this;
+				return new_morph;
 			}
 
-			this.start();
 		};
 
 	};
