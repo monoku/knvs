@@ -69,6 +69,10 @@ var Knvs = new function () {
 			this.angle = param.angle || 0;
 			this.angle_origin_x = param.angle_origin_x || 0;
 			this.angle_origin_y = param.angle_origin_y || 0;
+
+			function preDraw(){
+				
+			};
 			
 			this.draw = function (){};
 
@@ -156,14 +160,14 @@ var Knvs = new function () {
 					if(this._loaded){
 						var prevAlpha = ctx_.globalAlpha;
 						ctx_.save();
-						ctx_.translate(this.left+this.angle_origin_x, this.top+this.angle_origin_y);  
-						ctx_.rotate(this.angle * Math.PI/180);
+						ctx_.translate(this.left + this.angle_origin_x * this.scalex, this.top + this.angle_origin_y * this.scaley);  
+						ctx_.rotate(this.angle * Math.PI/180); 
 						ctx_.globalAlpha = this.alpha;
 					    ctx_.scale(this.scalex,this.scaley);
 						try{
 							this.width=this.width<=0?this.img.width:this.width;
 							this.height=this.height<=0?this.img.height:this.height;
-							ctx_.drawImage(this.img, -this.angle_origin_x, -this.angle_origin_y, this.width, this.height);
+							ctx_.drawImage(this.img, -this.angle_origin_x, -this.angle_origin_y,  this.width, this.height);
 						}catch(e){
 						}
 						ctx_.restore();
