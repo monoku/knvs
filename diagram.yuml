@@ -1,0 +1,25 @@
+# Diagram [you can see it at http://yuml.me/diagram/scruffy/class/]
+
+[Knvs|+options;+element;-elements_;-fr_;-ctx_;-linear_;-timer|+draw();_draw();remove();clear();getTimer()]<-*>
+	[Figure|-param;+left;+top;+animation;+scalex;+scaley;+angle;+angle_origin_x;+angle_origin_y;+alpha|draw();+getType():String;+morph();+scale();+set()],
+		[Figure]^[circle|+color;+radius],
+		[Figure]^[rect|+color;+width;+height],
+		[Figure]^[image|+img;+width;+height],
+		[Figure]^[text|+text;+font],
+[Knvs]->[_Timer],
+[Knvs]->[Interval],
+[Knvs]->[morph_]
+
+# The last one looks a little uggly
+
+[Knvs]<-*>
+	[Figure],
+		[Figure]^[circle],
+		[Figure]^[rect],
+		[Figure]^[image],
+		[Figure]^[text],
+[Knvs]->[_Timer],
+[Knvs]->[Interval],
+[Knvs]->[morph_]
+
+

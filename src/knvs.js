@@ -59,6 +59,7 @@ var Knvs = new function () {
 
 
 		Figure = function (param, knvsi){
+			//The knvs instance
 			this.knvsi = knvsi;
 			param = param || {};
 			this.left = param.left || 0;
@@ -69,10 +70,7 @@ var Knvs = new function () {
 			this.angle = param.angle || 0;
 			this.angle_origin_x = param.angle_origin_x || 0;
 			this.angle_origin_y = param.angle_origin_y || 0;
-
-			function preDraw(){
-				
-			};
+			this.alpha = param.alpha || 1;
 			
 			this.draw = function (){};
 
@@ -191,7 +189,6 @@ var Knvs = new function () {
 			figure.img.src = figure.src = param.src;
 			figure.width = param.width !== 0 && !param.width ? figure.img.width : param.width;
 			figure.height = param.height !== 0 && !param.height ? figure.img.height : param.height;
-			figure.alpha = param.alpha || 1;
 
 			figure.getType = function (){
 				return 'image';
@@ -201,7 +198,6 @@ var Knvs = new function () {
 
 		this.text = function (param){
 			var figure = new Figure(param, this);
-			figure.alpha = param.alpha || 1;
 			figure.text = param.text;
 			figure.font = param.font;
 
@@ -249,28 +245,6 @@ var Knvs = new function () {
 			for (i = 0 ; i < elements_.length ; i += 1) {
 				elements_[i].draw();
 			}
-
-			/*/ -- testing
-			if(!window.fps){
-				window.fps = 0, window.now, window.lastUpdate = (new Date)*1 - 1;
-				window.fpsFilter = 50;
-				var fpsout = document.createElement("div");
-				fpsout.id = 'fpsout';
-				fpsout.style.position = "absolute";
-				fpsout.style.top = "10px"; 
-				fpsout.style.left = "5px"; 
-				fpsout.style.color = "white"; 
-				fpsout.style.fontFamily = "sans-serif";
-				fpsout.style.zIndex = 10;
-				document.body.appendChild(fpsout);
-			}
-			setTimeout( function (){
-				var thisFrameFPS = 1000 / ((window.now=new Date) - window.lastUpdate);
-				fps += (thisFrameFPS - window.fps) / window.fpsFilter;
-				lastUpdate = now;
-				document.getElementById('fpsout').innerHTML = fps.toFixed(1) + "fps";
-			}, 1 );
-			// -- end testing*/
 		};
 
 		this.clear = function (){
@@ -417,25 +391,35 @@ var Knvs = new function () {
 					delta=0;
 				}
 				for (property in this.attributes) {
+					var value = this.element[property];
 					//if some transition is going to be applied then...
 					newDelta = this.transitions[property] ? this.transitions[property](delta) : this.transition(delta);
 					//if is a color attribute
-					if(typeof(this.element[property]) === "string" && this.element[property].indexOf("rgb") === 0){
+					if(typeof(value) == "string" && /^(rgb|#)/.test(value)){
+						if(/^#([\d|a-f]{3}){1,2}$/i.test(value)){
+							value = hexToRGBA(value);
+						}
+						if(/^#/.test(this.attributes[property])){
+							this.attributes[property] = hexToRGBA(this.attributes[property]);
+							this.init[property] = value;
+						}
 						inicolor = this.init[property].match(/\d+(\.\d+)?/g);
 						destinycolor = this.attributes[property].match(/\d+(\.\d+)?/g);
-						elementcolor = this.element[property].match(/\d+(\.\d+)?/g);
+						elementcolor = value.match(/\d+(\.\d+)?/g);
 						inicolor = inicolor.length<3?inicolor.concat([1]):inicolor;
 						destinycolor = destinycolor.length<3?destinycolor.concat([1]):destinycolor;
 						elementcolor = elementcolor.length<3?elementcolor.concat([1]):elementcolor;
 						for(i=0;i<4;i+=1){
-							if(i<3){						
+							if(i<3){			
 								elementcolor[i] = parseInt(parseInt(inicolor[i])+ (parseInt(destinycolor[i]) - parseInt(inicolor[i])) * newDelta);
-							}else{
+							}
+							else{
 								elementcolor[i] = parseFloat(parseFloat(inicolor[i])+ (parseFloat(destinycolor[i]) - parseFloat(inicolor[i])) * newDelta);
 							}
 						}
 						this.element[property]="rgba("+elementcolor.join(",")+")";
-					}else{				
+					}
+					else{				
 						this.element[property] = this.init[property] + (this.attributes[property] - this.init[property]) * newDelta;
 					}
 				}
@@ -480,7 +464,18 @@ var Knvs = new function () {
 				return new_morph;
 			}
 
-		};
+		}
+
+		function hexToRGBA(color){
+			if(color.length == 4){
+				var color2 = '#', a;
+				for(var i=1; i<color.length;i++){
+					color2 += ((a = color.substr(i,1))+a);
+				}
+				color = color2;
+			}
+			return 'rgba('+parseInt(color.substr(1,2),16)+','+parseInt(color.substr(3,2),16)+','+parseInt(color.substr(5,2),16)+',1)'
+		}
 
 	};
 
