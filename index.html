@@ -59,6 +59,9 @@
 				box-shadow: 2px 2px #e9e9e9;
 				margin-bottom: 20px;
 			}
+			.container div{
+				padding-left: 320px;
+			}
 			button{
 				color: white;
 				background: #333;
@@ -95,10 +98,11 @@
 				</canvas>
 				<div>
 					<h2>Creating a circle</h2>
-					<code>
-						knvs = Knvs.create('first');<br/><br/>
-						var circle = knvs.draw('circle', {left:150, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});
-					</code>	
+					<pre>
+knvs = Knvs.create('first');
+var circle = knvs.draw('circle', {left:150, top: 75, 
+	radius: 50, color: 'rgba(218,43,58,1)'});
+					</pre>	
 					<script type='text/javascript'>
 						var knvs = Knvs.create('first');
 						var circle = knvs.draw('circle', {left:150, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});
@@ -111,11 +115,12 @@
 				</canvas>
 				<div>
 					<h2>Moving the circle</h2>
-					<code>
-						knvs = Knvs.create('second');<br/><br/>
-						var circle = knvs.draw('circle', {left:50, top: 75, radius: 50, color: 'rgba(218,43,58,1)'});<br/><br/>
-						circle.morph({left: 250});
-					</code>
+					<pre>
+knvs = Knvs.create('second');
+var circle = knvs.draw('circle', {left:50, top: 75, radius: 50, 
+	color: 'rgba(218,43,58,1)'});
+circle.morph({left: 250});
+					</pre>
 					<button onclick='second();'>Run</button>
 					<script type='text/javascript'>
 						var knvs2 = Knvs.create('second');
@@ -133,11 +138,13 @@
 				</canvas>
 				<div>
 					<h2>Moving the circle with easing</h2>
-					<code>
-						knvs = Knvs.create('third');<br/><br/>
-						var circle = knvs.draw('circle', {left:50, top: 50, radius: 50, color: 'rgba(218,43,58,1)'});<br/><br/>
-						circle.morph({left: 250, top: 200},{transitions:{top: bounce}, duration: 600});
-					</code>
+					<pre>
+knvs = Knvs.create('third');
+var circle = knvs.draw('circle', {left:50, top: 50, 
+	radius: 50, color: 'rgba(218,43,58,1)'});
+circle.morph({left: 250, top: 200},{transitions:
+	{top: bounce}, duration: 600});
+					</pre>
 					<button onclick='third();'>Run</button>
 					<script type='text/javascript'>
 						var knvs3 = Knvs.create('third');
@@ -156,11 +163,15 @@
 				</canvas>
 				<div>
 					<h2>Multiple stuff</h2>
-					<code>
-						knvs = Knvs.create('fourth');<br/><br/>
-						var circle = knvs.draw('circle', {left:50, top: 50, radius: 50, color: 'rgba(218,43,58,1)'});<br/><br/>
-						circle.morph({left: 250, top: 200, color: 'rgba(252,125,73,1)'}, {transitions:{top: bounce, left: easeInOutQuad}, duration: 600});
-					</code>
+					<pre>
+knvs = Knvs.create('fourth');
+var circle = knvs.draw('circle', {left:50, top: 50, 
+	radius: 50, color: 'rgba(218,43,58,1)'});
+circle.morph({left: 250, top: 200, 
+	color: 'rgba(252,125,73,1)'}, {transitions: 
+	{top: bounce, left: easeInOutQuad}, 
+	duration: 600});
+					</pre>
 					<button onclick='fourth();'>Run</button>
 					<script type='text/javascript'>
 						var knvs4 = Knvs.create('fourth');
@@ -170,6 +181,44 @@
 							circle4.top = 50;
 							circle4.color = 'rgba(218,43,58,1)';
 							circle4.morph({left: 250, top: 200, color: 'rgba(252,125,73,1)'},{transitions:{top: bounce, left: easeInOutQuad}, duration: 600});
+						}
+					</script>
+				</div>
+			</article>
+
+			<article>
+				<canvas width='300'  height='250' id='fifth'>
+				</canvas>
+				<div>
+					<h2>Concat Morphs</h2>
+					<pre>
+var knvs = Knvs.create('fifth');
+var img = knvs5.draw('image', {src:'res/img.jpg', 
+	scalex: 0.1, scaley: 0.1, angle: 0, 
+	angle_origin_x: 60, angle_origin_y: 60, 
+	top: 20, left: 20});
+
+img.morph({angle: 360, left: 250, top: 130}, 
+	{duration: 800, transitions: {left: easeOutCirc}})
+
+	.morph({angle: 360*2, left: 100, top: 50, 
+	scalex: 0.2, scaley: 0.2}, {duration: 700, 
+	transitions:{ top: easeInBack}})
+
+	.morph({scalex: 0.3, scaley: 0.3, left: 60, 
+	top: 30}, {duration: 300, transitions:{ 
+	left: easeOutBounce, scaley: easeOutBounce, 
+	scalex: easeOutBounce}});
+					</pre>
+					<button onclick='fifth();'>Run</button>
+					<script type='text/javascript'>
+						var knvs5 = Knvs.create('fifth');
+						var img = knvs5.draw('image', {src:'res/img.jpg', scalex: 0.1, scaley: 0.1, angle: 0, angle_origin_x: 60, angle_origin_y: 60, top: 20, left: 20});
+						function fifth(){
+							img.set({scalex: 0.1, scaley: 0.1, angle: 0, left: 20, top: 20, angle_origin_x: 292, angle_origin_y: 292});
+							img.morph({angle: 360, left: 250, top: 130}, {duration: 800, transitions: {left: easeOutCirc}})
+							.morph({angle: 360*2, left: 100, top: 50, scalex: 0.2, scaley: 0.2}, {duration: 700, transitions:{ top: easeInBack}})
+							.morph({scalex: 0.3, scaley: 0.3, left: 60, top: 30}, {duration: 300, transitions:{ left: easeOutBounce, scaley: easeOutBounce, scalex: easeOutBounce}});
 						}
 					</script>
 				</div>
