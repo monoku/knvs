@@ -118,9 +118,11 @@ var Knvs = new function () {
 				ctx_.restore();
 				return this;
 			};
+
 			figure.getType = function (){
 				return 'circle';
 			};
+			
 			return figure;
 		};
 
