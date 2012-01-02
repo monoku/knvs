@@ -162,15 +162,14 @@ circle.morph({left: 250, top: 200},{transitions:
 				<canvas width='300'  height='250' id='fourth'>
 				</canvas>
 				<div>
-					<h2>Multiple stuff</h2>
+					<h2>Multiple stuff (colors rgba &amp; hex)</h2>
 					<pre>
 knvs = Knvs.create('fourth');
 var circle = knvs.draw('circle', {left:50, top: 50, 
 	radius: 50, color: 'rgba(218,43,58,1)'});
-circle.morph({left: 250, top: 200, 
-	color: 'rgba(252,125,73,1)'}, {transitions: 
-	{top: bounce, left: easeInOutQuad}, 
-	duration: 600});
+circle4.morph({left: 250, top: 200, color: 
+	'#da2b3a'},{transitions:{top: bounce, left: 
+	easeInOutQuad}, duration: 600});
 					</pre>
 					<button onclick='fourth();'>Run</button>
 					<script type='text/javascript'>
@@ -193,7 +192,7 @@ circle.morph({left: 250, top: 200,
 					<h2>Concat Morphs</h2>
 					<pre>
 var knvs = Knvs.create('fifth');
-var img = knvs5.draw('image', {src:'res/img.jpg', 
+var img = knvs.draw('image', {src:'res/img.jpg', 
 	scalex: 0.1, scaley: 0.1, angle: 0, 
 	angle_origin_x: 60, angle_origin_y: 60, 
 	top: 20, left: 20});
