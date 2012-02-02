@@ -113,7 +113,7 @@ var Knvs = new function () {
 				ctx_.rotate(this.angle * Math.PI/180);
 			    ctx_.moveTo(-this.angle_origin_x, -this.angle_origin_y); 
 			    ctx_.scale(this.scalex,this.scaley);
-				ctx_.arc(-this.angle_origin_x, -this.angle_origin_y, this.radius, 0, Math.PI*2, true);
+				ctx_.arc(-this.angle_origin_x, -this.angle_origin_y, this.radius, 0, (param.angle || Math.PI) * 2, true);
 				ctx_.fill();
 				ctx_.restore();
 				return this;
