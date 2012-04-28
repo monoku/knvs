@@ -293,9 +293,24 @@ var Knvs = new function () {
 			this._canvas_ = _canvas_;
 
 			this.addInterval = function (anim, duration){
+				var that = this;
 				this._intervals.push(new this._canvas_.Interval(anim, duration));
 				if(!this.interval){
-					this.interval = setInterval(this.iterate(this), this._canvas_.fr);
+					window.requestAnimFrame = (function(){
+				      return  window.requestAnimationFrame       || 
+				              window.webkitRequestAnimationFrame || 
+				              window.mozRequestAnimationFrame    || 
+				              window.oRequestAnimationFrame      || 
+				              window.msRequestAnimationFrame     || 
+				              function( callback ){
+				                window.setTimeout(this.iterate(this), this._canvas_.fr);
+				              };
+				    })();
+					// this.interval = setInterval(this.iterate(this), this._canvas_.fr);
+					(function animloop(){
+						requestAnimFrame(animloop);
+						that.iterate(that)();
+				    })();
 				}
 			};
 
