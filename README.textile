@@ -3,7 +3,7 @@ h1. KNVS
 By David Avellaneda - @Davsket and "contributors":https://github.com/monoku/knvs/contributors
 
 KNVS is a light weight javascript library for canvas animations, it takes a canvas element and creates a continuous animation board. Every element that you draw via the KNVS, is going to be redrawn in the canvas, so any change you do on the element, is gonna be reflected on the canvas.
-
+See the demo at: "http://monoku.github.com/knvs":http://monoku.github.com/knvs
 
 KNVS doesn't validates the browser version or something else, there are a LOT of libraries that do it. So, this expects that there is gonna be a canvas support.
 
